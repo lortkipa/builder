@@ -1,16 +1,24 @@
-#include "core/debug/assert.h"
 #include "core/debug/logger.h"
+#include "core/memory/memory.h"
 
 int main(const int argc, const char** argv)
 {
-    assert(1 == 1, "shit, app failed");
-    assert(1 == 2, "shit, app failed");
+    // statrup
+    memory_system_startup();
 
-    log_error("logging error %f", 3.14f);
-    log_warning("logging warning %f", 3.14f);
-    log_success("logging success %f", 3.14f);
-    log_info("logging info %f", 3.14f);
-
+    u8 age_count = 5;
+    u8* ages = memory_allocate(age_count * sizeof(u8));
+    ages[0] = 14;
+    ages[1] = 16;
+    ages[2] = 44;
+    ages[3] = 42;
+    ages[4] = 5;
+    for (u8 i = 0; i < age_count; i++)
+        log_info("%d. %d", (i+1), ages[i]);
+    memory_free(ages, age_count * sizeof(u8));
+    
+    // shutdown
+    memory_system_shutdown();
     return 0;
 }
 
