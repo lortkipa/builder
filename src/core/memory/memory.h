@@ -17,4 +17,6 @@ void memory_system_shutdown(void);
 
 void* memory_allocate(const u32 size);
 
+void* memory_reallocate(void* memory, const u32 old_size, const u32 new_size);
+
 void memory_free(void* memory, const u32 size);

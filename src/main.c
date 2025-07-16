@@ -1,24 +1,20 @@
 #include "core/debug/logger.h"
 #include "core/memory/memory.h"
+#include "core/containers/string.h"
 
 int main(const int argc, const char** argv)
 {
     // statrup
     memory_system_startup();
 
-    u8 age_count = 5;
-    u8* ages = memory_allocate(age_count * sizeof(u8));
-    ages[0] = 14;
-    ages[1] = 16;
-    ages[2] = 44;
-    ages[3] = 42;
-    ages[4] = 5;
-    for (u8 i = 0; i < age_count; i++)
-        log_info("%d. %d", (i+1), ages[i]);
-    memory_free(ages, age_count * sizeof(u8));
+    string str = string_create();
+    string_set(&str, "Nikoloz");
+    log_info("| %s | %d | ", str.data, str.length);
+    string_setf(&str, "Dima %d", 14);
+    log_info("| %s | %d | ", str.data, str.length);
+    string_destroy(&str);
     
     // shutdown
     memory_system_shutdown();
-    return 0;
 }
 

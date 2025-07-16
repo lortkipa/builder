@@ -58,11 +58,38 @@ void* memory_allocate(const u32 size)
     }
     else 
     {
-        log_error("%dB allocation failed");
+        log_error("%dB allocation failed", size);
     }
 
     // return allocated memory
     return memory;
+}
+
+void* memory_reallocate(void* memory, const u32 old_size, const u32 new_size)
+{
+    // asserts
+    assert(tracker.running == true, "memory system not initialized");
+    assert(old_size > 0, "old memory size should be greater than 0B");
+    assert(new_size > 0, "reallocation size should be greater than 0B");
+    assert(old_size != new_size, "can't reallocate same size of memory");
+    assert(memory != null, "invalid memory");
+
+    // reallocate memory
+    void* new_memory = realloc(memory, new_size);
+
+    // track
+    if (new_memory)
+    {
+        tracker.system_calls++;
+        tracker.allocated += new_size - old_size;
+    }
+    else 
+    {
+        log_error("%dB reallocation failed", new_memory);
+    }
+
+    // return reallocated memory
+    return new_memory;
 }
 
 void memory_free(void* memory, const u32 size)
@@ -70,7 +97,7 @@ void memory_free(void* memory, const u32 size)
     // asserts
     assert(tracker.running == true, "memory system not initialized");
     assert(size > 0, "free size should be greater than 0B");
-    assert(memory != null, "memory is null");
+    assert(memory != null, "invalid memory");
 
     // free memory
     free(memory);
