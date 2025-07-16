@@ -1,0 +1,3 @@
+
+# define platform
+flags += -DWINDOWS
