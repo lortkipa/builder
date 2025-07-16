@@ -8,7 +8,7 @@ project := builder
 compiler := clang
 srcs := $(wildcard $(src_path)/*.c) $(wildcard $(src_path)/*/*.c) $(wildcard $(src_path)/*/*/*.c)
 libraries :=
-flags := -std=c23 
+flags := -std=c23 -I$(src_path)
 
 # config specific settings
 ifeq ($(config), debug)
