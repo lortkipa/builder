@@ -6,6 +6,10 @@ flags += -DLINUX
 bin:
 	@mkdir -p $(bin_path)
 
-# set in envirment variable
-set:
-	@export PATH=$(bin_path)/$(project)
+ifeq ($(config), debug)
+demo_run:
+	@cd $(demo_path) && export PATH=$(abspath $(bin_path)):$$PATH && gdb $(project)
+else
+demo_run:
+	@cd $(demo_path) && export PATH=$(abspath $(bin_path)):$$PATH && $(project)
+endif
